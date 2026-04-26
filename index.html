@@ -49,14 +49,14 @@
   }
   @keyframes pulse-sun {
     0%,100% { box-shadow: 0 0 0 12px rgba(255,217,61,0.25), 0 0 0 24px rgba(255,217,61,0.12); }
-    50%      { box-shadow: 0 0 0 18px rgba(255,217,61,0.3),  0 0 0 36px rgba(255,217,61,0.1);  }
+    50%      { box-shadow: 0 0 0 18px rgba(255,217,61,0.3),  0 0 0 36px rgba(255,217,61,0.1); }
   }
 
   .container { position: relative; z-index: 1; max-width: 600px; margin: 0 auto; padding: 20px 16px 50px; }
 
   .header { text-align: center; margin-bottom: 20px; animation: bounceIn 0.5s ease; }
-  .header h1 { font-size: 2.6rem; font-weight: 800; color: var(--dark); text-shadow: 3px 3px 0 rgba(255,255,255,0.6); }
-  .header p  { font-size: 1rem; color: #4a5568; font-weight: 600; margin-top: 4px; }
+  .header h1 { font-size: 2.4rem; font-weight: 800; color: var(--dark); text-shadow: 3px 3px 0 rgba(255,255,255,0.6); }
+  .header p  { font-size: 0.95rem; color: #4a5568; font-weight: 600; margin-top: 4px; }
 
   .score-bar { display: flex; justify-content: center; gap: 12px; margin-bottom: 18px; }
   .badge {
@@ -66,14 +66,24 @@
   }
 
   .card {
-    background: white; border-radius: 28px; padding: 26px 22px;
+    background: white; border-radius: 28px; padding: 24px 20px;
     box-shadow: 0 8px 32px rgba(45,53,97,0.12); margin-bottom: 16px;
     animation: slideUp 0.35s ease;
   }
-  @keyframes slideUp   { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
-  @keyframes bounceIn  { 0% { transform:scale(0.8); opacity:0; } 70% { transform:scale(1.05); } 100% { transform:scale(1); opacity:1; } }
+  @keyframes slideUp  { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes bounceIn { 0% { transform:scale(0.8); opacity:0; } 70% { transform:scale(1.05); } 100% { transform:scale(1); opacity:1; } }
 
-  .section-title { font-size: 1.2rem; font-weight: 800; color: var(--dark); margin-bottom: 14px; }
+  .section-title { font-size: 1.15rem; font-weight: 800; color: var(--dark); margin-bottom: 14px; }
+
+  /* Category tabs */
+  .cat-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .cat-tab {
+    background: #f0f4ff; border: 2px solid #e2e8f0; border-radius: 20px;
+    padding: 6px 14px; font-family: inherit; font-size: 0.85rem; font-weight: 700;
+    color: var(--dark); cursor: pointer; transition: all 0.15s;
+  }
+  .cat-tab:hover  { background: var(--sky); border-color: var(--sky); color: white; }
+  .cat-tab.active { background: var(--purple); border-color: var(--purple); color: white; }
 
   /* Mode grid */
   .mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -84,45 +94,62 @@
   }
   .mode-card:hover  { transform: translateY(-4px); box-shadow: 0 10px 28px rgba(0,0,0,0.1); }
   .mode-card:active { transform: scale(0.97); }
-  .mode-card .icon  { font-size: 2.6rem; display: block; margin-bottom: 6px; }
-  .mode-card .title { font-size: 1.05rem; font-weight: 800; color: var(--dark); }
-  .mode-card .desc  { font-size: 0.82rem; color: #718096; font-weight: 600; margin-top: 3px; }
-  .mode-card.m1 { border-color: var(--sky);    } .mode-card.m1:hover { background:#ebf8ff; }
-  .mode-card.m2 { border-color: var(--orange);  } .mode-card.m2:hover { background:#fffbeb; }
-  .mode-card.m3 { border-color: var(--grass);   } .mode-card.m3:hover { background:#f0fff4; }
-  .mode-card.m4 { border-color: var(--berry);   } .mode-card.m4:hover { background:#fff5f5; }
+  .mode-card .icon  { font-size: 2.4rem; display: block; margin-bottom: 6px; }
+  .mode-card .title { font-size: 1rem; font-weight: 800; color: var(--dark); }
+  .mode-card .desc  { font-size: 0.8rem; color: #718096; font-weight: 600; margin-top: 3px; }
+  .mode-card.m1 { border-color: var(--sky);   } .mode-card.m1:hover { background:#ebf8ff; }
+  .mode-card.m2 { border-color: var(--orange); } .mode-card.m2:hover { background:#fffbeb; }
+  .mode-card.m3 { border-color: var(--grass);  } .mode-card.m3:hover { background:#f0fff4; }
+  .mode-card.m4 { border-color: var(--berry);  } .mode-card.m4:hover { background:#fff5f5; }
 
-  /* Phrase cards (learn) */
+  /* Phrase cards */
   .phrase-card {
-    background: linear-gradient(135deg,#667eea11,#764ba211);
-    border: 2px solid #e2e8f0; border-radius: 18px; padding: 16px;
-    margin-bottom: 10px; cursor: pointer; transition: all 0.18s;
+    border: 2px solid #e2e8f0; border-radius: 18px; padding: 14px 16px;
+    margin-bottom: 10px; transition: all 0.18s; background: #fafbff;
   }
-  .phrase-card:hover  { transform: translateX(5px); border-color: var(--purple); }
-  .phrase-card .en    { font-size: 1.2rem; font-weight: 800; color: var(--dark); }
-  .phrase-card .fi    { font-size: 0.95rem; color: #718096; font-weight: 600; margin-top: 2px; }
-  .phrase-card .ex    { font-size: 0.88rem; color: var(--purple); font-style: italic; margin-top: 6px; display: none; }
-  .phrase-card .tip   { font-size: 0.78rem; color: #a0aec0; margin-top: 3px; }
-  .phrase-card.open .ex { display: block; }
-  .phrase-card .speak-btn {
-    margin-top: 8px; background: var(--sky); border: none; border-radius: 10px;
-    padding: 6px 14px; font-family: inherit; font-size: 0.85rem; font-weight: 700;
-    color: white; cursor: pointer; display: none;
+  .phrase-card:hover  { border-color: var(--purple); background: #f5f0ff; }
+  .phrase-card .top-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .phrase-card .en    { font-size: 1.1rem; font-weight: 800; color: var(--dark); flex: 1; }
+  .phrase-card .fi-reveal {
+    font-size: 0.92rem; color: #718096; font-weight: 600;
+    margin-top: 8px; display: none; padding: 8px 12px;
+    background: #f0f4ff; border-radius: 10px;
   }
-  .phrase-card.open .speak-btn { display: inline-block; }
+  .phrase-card.fi-open .fi-reveal { display: block; }
+  .toggle-fi-btn {
+    background: #f0f4ff; border: 2px solid #c7d2fe; border-radius: 10px;
+    padding: 5px 12px; font-family: inherit; font-size: 0.8rem; font-weight: 700;
+    color: var(--dark); cursor: pointer; transition: all 0.15s; white-space: nowrap; flex-shrink: 0;
+  }
+  .toggle-fi-btn:hover { background: var(--purple); border-color: var(--purple); color: white; }
+  .phrase-card.fi-open .toggle-fi-btn { background: var(--purple); border-color: var(--purple); color: white; }
+  .phrase-card .details { display: none; margin-top: 10px; border-top: 1px solid #e2e8f0; padding-top: 10px; }
+  .phrase-card.open .details { display: block; }
+  .phrase-card .phonetic {
+    font-size: 0.9rem; color: var(--orange); font-weight: 700;
+    background: #fff8f0; border-radius: 10px; padding: 6px 12px; display: inline-block; margin-bottom: 6px;
+  }
+  .phrase-card .example { font-size: 0.88rem; color: #555; font-style: italic; margin-bottom: 8px; }
+  .speak-btn {
+    background: var(--sky); border: none; border-radius: 10px;
+    padding: 7px 16px; font-family: inherit; font-size: 0.85rem; font-weight: 700;
+    color: white; cursor: pointer; transition: all 0.15s;
+  }
+  .speak-btn:hover { background: #4a9eca; }
+  .speak-btn:active { transform: scale(0.96); }
 
   /* Quiz */
-  .phrase-display { text-align: center; padding: 10px 0 4px; }
-  .phrase-emoji   { font-size: 3.6rem; display: block; margin-bottom: 10px; animation: wiggle 2s ease-in-out infinite; }
+  .phrase-display { text-align: center; padding: 8px 0 4px; }
+  .phrase-emoji   { font-size: 3.4rem; display: block; margin-bottom: 8px; animation: wiggle 2s ease-in-out infinite; }
   @keyframes wiggle { 0%,100% { transform:rotate(-3deg); } 50% { transform:rotate(3deg); } }
-  .phrase-en      { font-size: 1.8rem; font-weight: 800; color: var(--dark); line-height: 1.2; }
-  .phrase-fi      { font-size: 1.05rem; color: #718096; font-weight: 600; margin-top: 4px; }
-  .ctx-label      { display:inline-block; background:var(--purple); color:white; border-radius:20px; padding:4px 14px; font-size:0.82rem; font-weight:700; margin-bottom:12px; }
+  .phrase-en { font-size: 1.7rem; font-weight: 800; color: var(--dark); line-height: 1.2; }
+  .phrase-fi { font-size: 1rem; color: #718096; font-weight: 600; margin-top: 4px; }
+  .ctx-label { display:inline-block; border-radius:20px; padding:4px 14px; font-size:0.8rem; font-weight:700; margin-bottom:12px; color:white; }
 
-  .choices        { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
+  .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
   .choice-btn {
     background: #f7f9fc; border: 3px solid #e2e8f0; border-radius: 16px;
-    padding: 13px 8px; font-family: inherit; font-size: 0.95rem; font-weight: 700;
+    padding: 12px 8px; font-family: inherit; font-size: 0.92rem; font-weight: 700;
     color: var(--dark); cursor: pointer; transition: all 0.15s; text-align: center; line-height: 1.3;
   }
   .choice-btn:hover:not(:disabled) { background:var(--sky); border-color:var(--sky); transform:translateY(-2px); }
@@ -131,46 +158,55 @@
   .choice-btn:disabled { cursor:default; }
 
   .feedback {
-    text-align:center; padding:14px; border-radius:18px;
-    font-size:1.2rem; font-weight:800; margin-top:14px; display:none;
+    text-align:center; padding:13px; border-radius:16px;
+    font-size:1.1rem; font-weight:800; margin-top:12px; display:none;
   }
   .feedback.correct { background:#f0fff4; color:#276749; display:block; animation:bounceIn 0.3s ease; }
   .feedback.wrong   { background:#fff5f5; color:#c53030; display:block; animation:bounceIn 0.3s ease; }
 
-  .stars      { display:flex; justify-content:center; gap:6px; font-size:1.8rem; margin:8px 0; }
+  .stars      { display:flex; justify-content:center; gap:6px; font-size:1.7rem; margin:8px 0; }
   .star       { opacity:0.2; transition:all 0.3s; }
   .star.earned { opacity:1; animation:starPop 0.4s ease; }
   @keyframes starPop { 0%{transform:scale(0);} 70%{transform:scale(1.3);} 100%{transform:scale(1);} }
 
   /* Buttons */
   .btn {
-    display:block; width:100%; padding:15px; border:none; border-radius:18px;
-    font-family:inherit; font-size:1.1rem; font-weight:800; cursor:pointer;
-    transition:all 0.18s; margin-top:12px;
+    display:block; width:100%; padding:14px; border:none; border-radius:16px;
+    font-family:inherit; font-size:1.05rem; font-weight:800; cursor:pointer;
+    transition:all 0.18s; margin-top:10px;
   }
   .btn:active { transform:scale(0.97); }
-  .btn-primary  { background:linear-gradient(135deg,var(--orange),#ff6b35); color:white; box-shadow:0 6px 20px rgba(255,159,28,0.35); }
-  .btn-sky      { background:linear-gradient(135deg,var(--sky),#4a9eca);    color:white; box-shadow:0 6px 20px rgba(110,198,245,0.35); }
-  .btn-red      { background:linear-gradient(135deg,var(--berry),#c0392b);  color:white; box-shadow:0 6px 20px rgba(255,107,107,0.35); }
-  .btn-gray     { background:#e2e8f0; color:#4a5568; }
-  .btn-row      { display:flex; gap:10px; margin-top:12px; }
+  .btn-primary { background:linear-gradient(135deg,var(--orange),#ff6b35); color:white; box-shadow:0 5px 18px rgba(255,159,28,0.35); }
+  .btn-sky     { background:linear-gradient(135deg,var(--sky),#4a9eca);    color:white; box-shadow:0 5px 18px rgba(110,198,245,0.35); }
+  .btn-red     { background:linear-gradient(135deg,var(--berry),#c0392b);  color:white; box-shadow:0 5px 18px rgba(255,107,107,0.35); }
+  .btn-gray    { background:#e2e8f0; color:#4a5568; }
+  .btn-row     { display:flex; gap:10px; margin-top:12px; }
   .btn-row .btn { margin-top:0; flex:1; }
 
-  /* Fill input */
+  /* Fill */
   .fill-input {
-    width:100%; padding:14px 16px; border:3px solid #e2e8f0; border-radius:14px;
-    font-family:inherit; font-size:1.1rem; font-weight:700; color:var(--dark);
-    outline:none; margin-top:12px; transition:border-color 0.2s;
+    width:100%; padding:13px 16px; border:3px solid #e2e8f0; border-radius:14px;
+    font-family:inherit; font-size:1.05rem; font-weight:700; color:var(--dark);
+    outline:none; margin-top:10px; transition:border-color 0.2s;
   }
   .fill-input:focus { border-color:var(--sky); }
 
-  /* Pronunciation */
+  /* Pron feedback */
   .pron-box {
-    background:#f0fff4; border:2px solid var(--grass); border-radius:18px;
-    padding:16px; margin-top:14px; display:none;
-    font-size:0.95rem; font-weight:600; color:#276749; line-height:1.6;
+    border-radius:16px; padding:14px 16px; margin-top:12px; display:none;
+    font-size:0.92rem; font-weight:600; line-height:1.6;
   }
-  .pron-box.warn { background:#fff8f0; border-color:var(--orange); color:#7b4a00; }
+  .pron-box.good { background:#f0fff4; border:2px solid var(--grass); color:#276749; display:block; }
+  .pron-box.ok   { background:#fffbeb; border:2px solid var(--orange); color:#7b4a00; display:block; }
+  .pron-box.try  { background:#fff5f5; border:2px solid var(--berry);  color:#c53030; display:block; }
+
+  /* Category color map */
+  .cat-koti     { background:#6EC6F5; }
+  .cat-kaverit  { background:#C77DFF; }
+  .cat-tunteet  { background:#FF6B6B; }
+  .cat-koulu    { background:#6BCB77; }
+  .cat-ruoka    { background:#FF9F1C; }
+  .cat-harrastukset { background:#f59e0b; }
 
   .hidden { display:none !important; }
 </style>
@@ -225,7 +261,11 @@
   <!-- LEARN -->
   <div id="learnScreen" class="hidden">
     <div class="card">
-      <p class="section-title">📖 Fraasit ja lauseet</p>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <p class="section-title" style="margin-bottom:0">📖 Fraasit ja lauseet</p>
+        <button class="btn btn-gray" onclick="showHome()" style="margin-top:0;width:auto;padding:8px 16px;font-size:0.9rem">← Takaisin</button>
+      </div>
+      <div class="cat-tabs" id="learnTabs"></div>
       <div id="phraseList"></div>
       <button class="btn btn-primary" onclick="showHome()">← Takaisin</button>
     </div>
@@ -238,7 +278,7 @@
         <span class="phrase-emoji" id="qEmoji">🌟</span>
         <div class="ctx-label" id="qCtx"></div>
         <p class="phrase-fi" id="qFi"></p>
-        <p style="font-size:0.88rem;color:#a0aec0;font-weight:600;margin-top:4px">Mikä on englanninkielinen käännös?</p>
+        <p style="font-size:0.85rem;color:#a0aec0;font-weight:600;margin-top:4px">Mikä on englanninkielinen käännös?</p>
       </div>
       <div class="choices" id="qChoices"></div>
       <div class="feedback" id="qFeedback"></div>
@@ -254,7 +294,7 @@
       <div class="phrase-display">
         <span class="phrase-emoji" id="fEmoji">✏️</span>
         <div class="ctx-label" id="fCtx"></div>
-        <p class="phrase-en" id="fSentence" style="margin:14px 0 6px"></p>
+        <p class="phrase-en" id="fSentence" style="margin:12px 0 6px;font-size:1.5rem"></p>
         <p class="phrase-fi" id="fHint"></p>
       </div>
       <input class="fill-input" id="fillAnswer" type="text" placeholder="Kirjoita puuttuva sana..."
@@ -272,7 +312,7 @@
       <div class="phrase-display">
         <span class="phrase-emoji" id="pEmoji">🎤</span>
         <div class="ctx-label" id="pCtx"></div>
-        <p class="phrase-en" id="pPhrase" style="margin:12px 0 4px;filter:blur(5px);transition:filter 0.4s"></p>
+        <p class="phrase-en" id="pPhrase" style="margin:10px 0 4px;filter:blur(5px);transition:filter 0.4s"></p>
         <p class="phrase-fi" id="pFi"></p>
         <p style="font-size:0.82rem;color:#a0aec0;font-weight:600;margin-top:4px" id="pHint">🔊 Kuuntele ensin!</p>
       </div>
@@ -280,11 +320,14 @@
       <button class="btn btn-sky" id="pListenBtn" onclick="pronSpeak()">🔊 Kuuntele fraasi</button>
 
       <div id="pTypeArea" style="display:none;margin-top:14px">
-        <p style="font-weight:700;color:var(--dark);font-size:0.9rem;margin-bottom:6px">
-          ✏️ Kirjoita miten kuulostaa suomalaisittain:<br>
-          <span style="color:#a0aec0;font-size:0.8rem">esim. "gud moo-ning"</span>
+        <div style="background:#fff8f0;border-radius:14px;padding:12px 14px;margin-bottom:12px">
+          <p style="font-size:0.8rem;font-weight:700;color:#a0aec0;margin-bottom:4px">🗣 ÄÄNTÄMISOHJE</p>
+          <p style="font-size:1.1rem;font-weight:800;color:var(--orange)" id="pPhonetic"></p>
+        </div>
+        <p style="font-weight:700;color:var(--dark);font-size:0.88rem;margin-bottom:6px">
+          ✏️ Kirjoita miten sinä yrittäisit äännellä sen:
         </p>
-        <input class="fill-input" id="pronAnswer" type="text" placeholder="Kirjoita tähän..."
+        <input class="fill-input" id="pronAnswer" type="text" placeholder="esim. gud moo-ning..."
           onkeydown="if(event.key==='Enter')checkPron()">
         <button class="btn btn-red" onclick="checkPron()" style="margin-top:10px">Tarkista 🎤</button>
       </div>
@@ -302,45 +345,87 @@
 
 <script>
 // =============================================
-// FRAASIT – lisää uusia tähän listaan!
+// FRAASIT – lisää uusia tähän!
+// Kentät: en, fi, emoji, ctx, example, phonetic
+// ctx vaihtoehdot: "Koti","Kaverit","Tunteet","Koulu","Ruoka","Harrastukset"
 // =============================================
 const phrases = [
-  // Tervehtimiset
-  { en:"Good morning!",       fi:"Hyvää huomenta!",          emoji:"🌅", ctx:"Tervehtimiset",  example:"Good morning! How are you?",          phonetic:"gud moo-ning" },
-  { en:"Good afternoon!",     fi:"Hyvää iltapäivää!",        emoji:"☀️", ctx:"Tervehtimiset",  example:"Good afternoon, everyone!",           phonetic:"gud aaf-ter-nuun" },
-  { en:"Good night!",         fi:"Hyvää yötä!",              emoji:"🌙", ctx:"Tervehtimiset",  example:"Good night, sleep tight!",            phonetic:"gud nait" },
-  { en:"Hello!",              fi:"Hei!",                     emoji:"👋", ctx:"Tervehtimiset",  example:"Hello! Nice to see you!",             phonetic:"hel-loo" },
-  { en:"How are you?",        fi:"Miten voit?",              emoji:"😊", ctx:"Tervehtimiset",  example:"Hi! How are you today?",              phonetic:"hau aa juu" },
-  // Vastaaminen
-  { en:"I'm fine, thank you!",fi:"Olen hyvin, kiitos!",      emoji:"👍", ctx:"Vastaaminen",    example:"I'm fine, thank you! And you?",       phonetic:"aim fain, tänk juu" },
-  { en:"I'm happy!",          fi:"Olen iloinen!",            emoji:"😄", ctx:"Vastaaminen",    example:"I'm happy today!",                    phonetic:"aim häp-pi" },
-  // Esittäytyminen
-  { en:"What is your name?",  fi:"Mikä sinun nimesi on?",    emoji:"🏷️", ctx:"Esittäytyminen", example:"Hello! What is your name?",            phonetic:"wot is joor neim" },
-  { en:"My name is...",       fi:"Nimeni on...",             emoji:"😄", ctx:"Esittäytyminen", example:"My name is Matti.",                    phonetic:"mai neim is..." },
-  { en:"Nice to meet you!",   fi:"Hauska tavata!",           emoji:"🤝", ctx:"Esittäytyminen", example:"Nice to meet you, Anna!",              phonetic:"nais tu miit juu" },
-  // Kohteliaisuus
-  { en:"Please",              fi:"Ole hyvä / Kiitos",        emoji:"🙏", ctx:"Kohteliaisuus",  example:"Can I have water, please?",           phonetic:"pliis" },
-  { en:"Thank you!",          fi:"Kiitos!",                  emoji:"💖", ctx:"Kohteliaisuus",  example:"Thank you very much!",                phonetic:"tänk juu" },
-  { en:"You're welcome!",     fi:"Ole hyvä!",                emoji:"😊", ctx:"Kohteliaisuus",  example:"Thank you! — You're welcome!",        phonetic:"joor wel-kam" },
-  { en:"I'm sorry",           fi:"Olen pahoillani",          emoji:"😔", ctx:"Kohteliaisuus",  example:"I'm sorry, I made a mistake.",        phonetic:"aim sor-ri" },
-  { en:"Excuse me",           fi:"Anteeksi",                 emoji:"🙋", ctx:"Kohteliaisuus",  example:"Excuse me, where is the toilet?",     phonetic:"eks-kjuus mi" },
-  // Apua
-  { en:"I don't understand",  fi:"En ymmärrä",               emoji:"🤔", ctx:"Apua",           example:"I don't understand. Can you help me?",phonetic:"ai doont an-der-ständ" },
-  { en:"Can you help me?",    fi:"Voitko auttaa minua?",     emoji:"🆘", ctx:"Apua",           example:"Can you help me find my bag?",        phonetic:"kän juu help mi" },
-  // Tunteet
-  { en:"I like...",           fi:"Pidän...",                 emoji:"❤️", ctx:"Tunteet",        example:"I like pizza and ice cream!",         phonetic:"ai laik..." },
-  { en:"I don't like...",     fi:"En pidä...",               emoji:"😕", ctx:"Tunteet",        example:"I don't like spiders.",               phonetic:"ai doont laik..." },
-  // Toiminta
-  { en:"Let's go!",           fi:"Mennään!",                 emoji:"🏃", ctx:"Toiminta",       example:"Let's go to the park!",               phonetic:"lets goo" },
-  { en:"Wait a moment",       fi:"Odota hetki",              emoji:"⏳", ctx:"Toiminta",       example:"Wait a moment, I'm coming!",          phonetic:"weit a moo-ment" },
-  { en:"See you later!",      fi:"Nähdään myöhemmin!",       emoji:"👋", ctx:"Hyvästely",      example:"See you later, alligator!",           phonetic:"sii juu lei-ter" },
+  // KOTI JA PERHE
+  { en:"Can you help me?",            fi:"Voitko auttaa minua?",                emoji:"🏠", ctx:"Koti",         example:"Mom, can you help me with this?",                  phonetic:"kän juu help mi" },
+  { en:"I'm home!",                   fi:"Olen kotona!",                         emoji:"🚪", ctx:"Koti",         example:"I'm home! Where is everyone?",                     phonetic:"aim houm" },
+  { en:"What's for dinner?",          fi:"Mitä on illalliseksi?",                emoji:"🍽️", ctx:"Koti",         example:"What's for dinner tonight?",                       phonetic:"wots for din-ner" },
+  { en:"Can I watch TV?",             fi:"Saanko katsoa televisiota?",           emoji:"📺", ctx:"Koti",         example:"Can I watch TV after homework?",                   phonetic:"kän ai wotsh tii-vii" },
+  { en:"I'm tired.",                  fi:"Olen väsynyt.",                        emoji:"😴", ctx:"Koti",         example:"I'm tired, I want to sleep.",                      phonetic:"aim tai-erd" },
+  { en:"Can I use your phone?",       fi:"Saanko käyttää puhelintasi?",          emoji:"📱", ctx:"Koti",         example:"Dad, can I use your phone?",                       phonetic:"kän ai juus joor foon" },
+  { en:"I'll be ready in a minute.",  fi:"Olen valmis minuutissa.",              emoji:"⏰", ctx:"Koti",         example:"Wait, I'll be ready in a minute!",                 phonetic:"ail bi red-di in a min-it" },
+  { en:"Can you turn off the light?", fi:"Voitko sammuttaa valon?",              emoji:"💡", ctx:"Koti",         example:"I'm going to sleep, can you turn off the light?",  phonetic:"kän juu tern of de lait" },
+  { en:"I can't find my...",          fi:"En löydä...",                          emoji:"🔍", ctx:"Koti",         example:"I can't find my shoes!",                           phonetic:"ai kaant faind mai" },
+
+  // KAVERIT JA VAPAA-AIKA
+  { en:"Do you want to hang out?",    fi:"Haluatko tulla viettämään aikaa?",     emoji:"👫", ctx:"Kaverit",      example:"Do you want to hang out after school?",            phonetic:"du juu wont tu häng aut" },
+  { en:"What are you doing?",         fi:"Mitä teet?",                           emoji:"🤔", ctx:"Kaverit",      example:"Hey, what are you doing right now?",               phonetic:"wot aa juu duu-ing" },
+  { en:"That's so funny!",            fi:"Se on niin hauska!",                   emoji:"😂", ctx:"Kaverit",      example:"Haha, that's so funny!",                           phonetic:"dätss soo fan-ni" },
+  { en:"Let's play!",                 fi:"Leikitään! / Pelataan!",               emoji:"🎮", ctx:"Kaverit",      example:"Let's play outside!",                              phonetic:"letss plei" },
+  { en:"Wait for me!",                fi:"Odota minua!",                         emoji:"🏃", ctx:"Kaverit",      example:"Hey, wait for me!",                                phonetic:"weit for mi" },
+  { en:"That's not fair!",            fi:"Se ei ole reilua!",                    emoji:"😤", ctx:"Kaverit",      example:"You cheated! That's not fair!",                    phonetic:"dätss not fäär" },
+  { en:"Are you coming?",             fi:"Tuletko mukaan?",                      emoji:"🙋", ctx:"Kaverit",      example:"We're going to the park, are you coming?",         phonetic:"aa juu kam-ming" },
+  { en:"I missed you!",               fi:"Olen ikävöinyt sinua!",                emoji:"🤗", ctx:"Kaverit",      example:"I missed you so much!",                            phonetic:"ai missd juu" },
+  { en:"That was so much fun!",       fi:"Se oli niin hauskaa!",                 emoji:"🎉", ctx:"Kaverit",      example:"That was so much fun, let's do it again!",         phonetic:"dät wos soo matsh fan" },
+
+  // TUNTEET JA MIELIPITEET
+  { en:"I'm so happy!",               fi:"Olen niin iloinen!",                   emoji:"😄", ctx:"Tunteet",      example:"I got a good grade, I'm so happy!",                phonetic:"aim soo häp-pi" },
+  { en:"I'm really upset.",           fi:"Olen todella järkyttynyt.",             emoji:"😢", ctx:"Tunteet",      example:"I'm really upset about what happened.",            phonetic:"aim rii-li ap-set" },
+  { en:"I think that...",             fi:"Minusta tuntuu että...",               emoji:"💭", ctx:"Tunteet",      example:"I think that dogs are better than cats.",          phonetic:"ai think dät" },
+  { en:"I love this!",                fi:"Rakastan tätä!",                       emoji:"❤️", ctx:"Tunteet",      example:"I love this song!",                                phonetic:"ai lav dhiss" },
+  { en:"I'm nervous.",                fi:"Minua jännittää.",                     emoji:"😬", ctx:"Tunteet",      example:"I'm nervous about the test.",                      phonetic:"aim ner-vas" },
+  { en:"That's really cool!",         fi:"Se on todella siistii!",               emoji:"😎", ctx:"Tunteet",      example:"You can skateboard? That's really cool!",          phonetic:"dätss rii-li kuul" },
+  { en:"I feel sick.",                fi:"Minulla on paha olla.",                emoji:"🤒", ctx:"Tunteet",      example:"I can't come today, I feel sick.",                 phonetic:"ai fiil sik" },
+  { en:"I'm so bored.",               fi:"Minulla on niin tylsää.",              emoji:"😑", ctx:"Tunteet",      example:"There's nothing to do, I'm so bored.",             phonetic:"aim soo bord" },
+  { en:"That scared me!",             fi:"Se pelotti minua!",                    emoji:"😱", ctx:"Tunteet",      example:"That noise scared me!",                            phonetic:"dät skäärd mi" },
+
+  // KOULU
+  { en:"I don't get it.",             fi:"En ymmärrä tätä.",                     emoji:"📚", ctx:"Koulu",        example:"Can you explain? I don't get it.",                 phonetic:"ai doont get it" },
+  { en:"Can you repeat that?",        fi:"Voitko toistaa sen?",                  emoji:"🔁", ctx:"Koulu",        example:"Sorry, can you repeat that?",                      phonetic:"kän juu ri-piit dät" },
+  { en:"When is the homework due?",   fi:"Milloin kotitehtävät pitää palauttaa?",emoji:"📝", ctx:"Koulu",        example:"When is the homework due?",                        phonetic:"wen is de hooum-werk djuu" },
+  { en:"I got a good grade!",         fi:"Sain hyvän arvosanan!",                emoji:"🌟", ctx:"Koulu",        example:"I studied hard and I got a good grade!",           phonetic:"ai got a gud greid" },
+  { en:"Can I go to the bathroom?",   fi:"Saanko mennä vessaan?",                emoji:"🚽", ctx:"Koulu",        example:"Excuse me, can I go to the bathroom?",             phonetic:"kän ai goo tu de bäth-ruum" },
+  { en:"I forgot my homework.",       fi:"Unohdin kotitehtäväni.",               emoji:"😬", ctx:"Koulu",        example:"I'm sorry, I forgot my homework.",                 phonetic:"ai for-got mai hooum-werk" },
+  { en:"Can I borrow a pen?",         fi:"Saanko lainata kynää?",                emoji:"✏️", ctx:"Koulu",        example:"Can I borrow a pen? I lost mine.",                 phonetic:"kän ai bor-roo a pen" },
+  { en:"What page are we on?",        fi:"Millä sivulla ollaan?",                emoji:"📖", ctx:"Koulu",        example:"What page are we on?",                             phonetic:"wot peidj aa wii on" },
+
+  // RUOKA
+  { en:"I'm starving!",               fi:"Minulla on tosi nälkä!",               emoji:"🍕", ctx:"Ruoka",        example:"I haven't eaten all day, I'm starving!",           phonetic:"aim staar-ving" },
+  { en:"This is delicious!",          fi:"Tämä on herkullista!",                 emoji:"😋", ctx:"Ruoka",        example:"Wow, this is delicious!",                          phonetic:"dhiss is de-lish-as" },
+  { en:"Can I have some more?",       fi:"Saanko lisää?",                        emoji:"🙋", ctx:"Ruoka",        example:"Can I have some more pasta, please?",              phonetic:"kän ai häv sam moor" },
+  { en:"I don't like that.",          fi:"En pidä siitä.",                       emoji:"🤢", ctx:"Ruoka",        example:"Sorry, I don't like that.",                        phonetic:"ai doont laik dät" },
+  { en:"I'm not hungry.",             fi:"Minulla ei ole nälkä.",                emoji:"🙅", ctx:"Ruoka",        example:"No thanks, I'm not hungry.",                       phonetic:"aim not han-gri" },
+  { en:"Can I have a snack?",         fi:"Saanko välipalan?",                    emoji:"🍎", ctx:"Ruoka",        example:"I'm hungry, can I have a snack?",                  phonetic:"kän ai häv a snäk" },
+  { en:"What do we have to eat?",     fi:"Mitä meillä on syötävää?",             emoji:"🍳", ctx:"Ruoka",        example:"What do we have to eat?",                          phonetic:"wot du wii häv tu iit" },
+
+  // HARRASTUKSET
+  { en:"I'm really into...",          fi:"Olen todella kiinnostunut...",         emoji:"🎯", ctx:"Harrastukset",  example:"I'm really into drawing lately.",                  phonetic:"aim rii-li in-tuu" },
+  { en:"I'm good at...",              fi:"Olen hyvä...",                         emoji:"🏆", ctx:"Harrastukset",  example:"I'm good at swimming.",                            phonetic:"aim gud ät" },
+  { en:"Do you want to come with me?",fi:"Haluatko tulla mukaan?",              emoji:"🤝", ctx:"Harrastukset",  example:"I'm going to practice, do you want to come?",      phonetic:"du juu wont tu kam width mi" },
+  { en:"I practice every day.",       fi:"Harjoittelen joka päivä.",             emoji:"💪", ctx:"Harrastukset",  example:"I practice piano every day.",                      phonetic:"ai präk-tiss ev-ri dei" },
+  { en:"I just started learning...",  fi:"Aloitin juuri oppimaan...",            emoji:"🌱", ctx:"Harrastukset",  example:"I just started learning guitar!",                  phonetic:"ai djast staar-tid ler-ning" },
+  { en:"I've been doing this for...", fi:"Olen tehnyt tätä jo...",               emoji:"📅", ctx:"Harrastukset",  example:"I've been doing this for two years.",              phonetic:"aiv biin duu-ing dhiss for" },
+  { en:"I want to get better at...",  fi:"Haluan kehittyä...",                   emoji:"📈", ctx:"Harrastukset",  example:"I want to get better at drawing.",                 phonetic:"ai wont tu get bet-ter ät" },
 ];
 
-// =============================================
-// TILA
-// =============================================
+// Kategoria-värit
+const catColors = {
+  "Koti":         "#6EC6F5",
+  "Kaverit":      "#C77DFF",
+  "Tunteet":      "#FF6B6B",
+  "Koulu":        "#6BCB77",
+  "Ruoka":        "#FF9F1C",
+  "Harrastukset": "#f59e0b",
+};
+
+// Tila
 let score = 0, streak = 0;
 let quizQ = null, fillQ = null, pronP = null;
+let activeLearnCat = "Kaikki";
 
 // =============================================
 // NAVIGOINTI
@@ -360,22 +445,51 @@ function showScreen(id) {
 // =============================================
 // OPETTELE
 // =============================================
+const cats = ["Kaikki", ...Object.keys(catColors)];
+
 function startLearn() {
   showScreen('learnScreen');
-  const list = document.getElementById('phraseList');
-  list.innerHTML = phrases.map((p, i) => `
-    <div class="phrase-card" id="pc${i}" onclick="toggleCard(${i})">
-      <div class="en">${p.emoji} ${p.en}</div>
-      <div class="fi">${p.fi}</div>
-      <div class="ex">📝 ${p.example}</div>
-      <div class="ex" style="color:#FF9F1C">🗣 Ääntäminen: <strong>${p.phonetic}</strong></div>
-      <button class="speak-btn" onclick="event.stopPropagation();speak('${p.en.replace(/'/g,"\\'")}')">🔊 Kuuntele</button>
-      <div class="tip">👆 Napauta</div>
-    </div>
+  // Tee kategoria-välilehdet
+  const tabs = document.getElementById('learnTabs');
+  tabs.innerHTML = cats.map(c => `
+    <button class="cat-tab ${c === activeLearnCat ? 'active' : ''}" onclick="filterLearn('${c}')">${c}</button>
   `).join('');
+  renderPhrases();
 }
-function toggleCard(i) {
-  document.getElementById('pc'+i).classList.toggle('open');
+
+function filterLearn(cat) {
+  activeLearnCat = cat;
+  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  renderPhrases();
+}
+
+function renderPhrases() {
+  const filtered = activeLearnCat === "Kaikki"
+    ? phrases
+    : phrases.filter(p => p.ctx === activeLearnCat);
+  const list = document.getElementById('phraseList');
+  list.innerHTML = filtered.map((p) => {
+    const globalIdx = phrases.indexOf(p);
+    const enSafe = p.en.replace(/'/g,"\\'");
+    return `
+    <div class="phrase-card" id="pc${globalIdx}">
+      <div class="top-row">
+        <div class="en">${p.emoji} ${p.en}</div>
+        <button class="toggle-fi-btn" onclick="toggleFi(${globalIdx})">🇫🇮 Suomi</button>
+      </div>
+      <div class="fi-reveal">${p.fi}</div>
+      <div class="details">
+        <div class="phonetic">🗣 ${p.phonetic}</div>
+        <div class="example">📝 ${p.example}</div>
+        <button class="speak-btn" onclick="speak('${enSafe}')">🔊 Kuuntele</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleFi(i) {
+  document.getElementById('pc'+i).classList.toggle('fi-open');
 }
 
 // =============================================
@@ -394,8 +508,12 @@ function loadQuiz() {
   const opts = [correct, ...wrongs].sort(() => Math.random()-0.5);
   quizQ = { correct, opts };
 
+  const color = catColors[correct.ctx] || '#C77DFF';
+  const ctxEl = document.getElementById('qCtx');
+  ctxEl.textContent = correct.ctx;
+  ctxEl.style.background = color;
+
   document.getElementById('qEmoji').textContent = correct.emoji;
-  document.getElementById('qCtx').textContent = correct.ctx;
   document.getElementById('qFi').textContent = correct.fi;
 
   document.getElementById('qChoices').innerHTML = opts.map((o,i) =>
@@ -416,13 +534,15 @@ function selectQuiz(i) {
   if (isOk) {
     score += 10; streak++;
     fb.className = 'feedback correct';
-    fb.textContent = streak >= 3 ? `🔥 ${streak} putkessa! +10 pistettä` : '✅ Oikein! +10 pistettä';
+    fb.textContent = streak >= 3
+      ? `🔥 ${streak} putkessa! Mahtavaa! +10 pistettä`
+      : `✅ Oikein! +10 pistettä — 🗣 ${correct.phonetic}`;
     stars.forEach((s,j) => setTimeout(() => s.classList.add('earned'), j*180));
     speak(correct.en);
   } else {
     streak = 0;
     fb.className = 'feedback wrong';
-    fb.textContent = `❌ Oikea vastaus: "${correct.en}" 🗣 ${correct.phonetic}`;
+    fb.textContent = `❌ Oikea vastaus: "${correct.en}" — 🗣 ${correct.phonetic}`;
     stars[0].classList.add('earned');
   }
   updateScore();
@@ -441,16 +561,21 @@ function loadFill() {
   document.getElementById('fillAnswer').disabled = false;
 
   const p = phrases[Math.floor(Math.random() * phrases.length)];
-  // Valitse satunnainen sana poistettavaksi (ei ensimmäinen jos lyhyt)
   const words = p.en.replace(/[!?.]/g,'').split(' ');
-  const wi = words.length > 1 ? 1 + Math.floor(Math.random() * (words.length-1)) : 0;
-  const missing = words[wi].toLowerCase();
-  const sentence = p.en.replace(words[wi], '___');
+  // Poista mielenkiintoinen sana (ei ensimmäinen lyhyt sana)
+  const candidates = words.map((w,i) => ({w,i})).filter(x => x.w.length > 2);
+  const pick = candidates[Math.floor(Math.random() * candidates.length)] || {w: words[0], i: 0};
+  const missing = pick.w.toLowerCase();
+  const sentence = p.en.replace(new RegExp('\\b' + pick.w + '\\b', 'i'), '___');
 
-  fillQ = { sentence, missing, hint: p.fi, emoji: p.emoji, ctx: p.ctx };
+  fillQ = { sentence, missing, hint: p.fi, emoji: p.emoji, ctx: p.ctx, phonetic: p.phonetic };
+
+  const color = catColors[p.ctx] || '#C77DFF';
+  const ctxEl = document.getElementById('fCtx');
+  ctxEl.textContent = p.ctx;
+  ctxEl.style.background = color;
 
   document.getElementById('fEmoji').textContent = p.emoji;
-  document.getElementById('fCtx').textContent = p.ctx;
   document.getElementById('fSentence').textContent = sentence;
   document.getElementById('fHint').textContent = '🇫🇮 ' + p.fi;
   setTimeout(() => document.getElementById('fillAnswer').focus(), 100);
@@ -463,11 +588,12 @@ function checkFill() {
   if (ans === correct) {
     score += 15; streak++;
     fb.className = 'feedback correct';
-    fb.textContent = `✅ Oikein! "${correct}" – hienoa! +15 pistettä 🎉`;
+    fb.textContent = `✅ Täydellinen! "${correct}" – hienoa! +15 pistettä 🎉`;
+    speak(fillQ.sentence.replace('___', correct));
   } else {
     streak = 0;
     fb.className = 'feedback wrong';
-    fb.textContent = `❌ Oikea sana: "${correct}"`;
+    fb.textContent = `❌ Oikea sana: "${correct}" — 🗣 ${fillQ.phonetic}`;
   }
   updateScore();
   document.getElementById('fillAnswer').disabled = true;
@@ -482,13 +608,19 @@ function startPron() { showScreen('pronScreen'); loadPron(); }
 function loadPron() {
   const p = phrases[Math.floor(Math.random() * phrases.length)];
   pronP = p;
+
+  const color = catColors[p.ctx] || '#C77DFF';
+  const ctxEl = document.getElementById('pCtx');
+  ctxEl.textContent = p.ctx;
+  ctxEl.style.background = color;
+
   document.getElementById('pEmoji').textContent = p.emoji;
-  document.getElementById('pCtx').textContent = p.ctx;
   document.getElementById('pPhrase').textContent = p.en;
   document.getElementById('pPhrase').style.filter = 'blur(5px)';
   document.getElementById('pFi').textContent = p.fi;
   document.getElementById('pHint').style.display = 'block';
   document.getElementById('pTypeArea').style.display = 'none';
+  document.getElementById('pFeedback').className = 'pron-box';
   document.getElementById('pFeedback').style.display = 'none';
   document.getElementById('pronAnswer').value = '';
   document.getElementById('pListenBtn').textContent = '🔊 Kuuntele fraasi';
@@ -499,41 +631,38 @@ function pronSpeak() {
   document.getElementById('pListenBtn').textContent = '🔊 Kuuntele uudelleen';
   document.getElementById('pPhrase').style.filter = 'none';
   document.getElementById('pHint').style.display = 'none';
+  document.getElementById('pPhonetic').textContent = pronP.phonetic;
   document.getElementById('pTypeArea').style.display = 'block';
   setTimeout(() => document.getElementById('pronAnswer').focus(), 200);
 }
 
 function checkPron() {
-  const attempt = document.getElementById('pronAnswer').value.trim();
+  const attempt = document.getElementById('pronAnswer').value.trim().toLowerCase();
   if (!attempt) return;
+  const target = pronP.phonetic.toLowerCase().replace(/[-\s]/g,'');
+  const att = attempt.replace(/[-\s]/g,'');
+  const sim = charSimilarity(att, target);
+
   const fb = document.getElementById('pFeedback');
-  const correct = pronP.phonetic;
-
-  // Yksinkertainen vertailu: lasketaan yhteiset kirjaimet
-  const score_pct = similarity(attempt.toLowerCase(), correct.toLowerCase());
-
-  fb.className = 'pron-box';
-  if (score_pct > 0.7) {
-    fb.textContent = `⭐⭐⭐ Loistavaa! Oikea ääntäminen on "${correct}" – sinä osuit lähelle! Harjoittele lisää niin tulee yhä paremmin! 💪`;
-    score += 10; streak++;
-    updateScore();
-  } else if (score_pct > 0.4) {
-    fb.textContent = `⭐⭐ Hyvä yritys! Oikea ääntäminen on: "${correct}" – kuuntele uudelleen ja yritä vielä! 😊`;
-    score += 5; streak++;
-    updateScore();
+  if (sim > 0.72) {
+    fb.className = 'pron-box good';
+    fb.textContent = `⭐⭐⭐ Loistavaa! Ääntämisesi "${attempt}" on todella lähellä oikeaa "${pronP.phonetic}"! Harjoittele niin tulee täydelliseksi! 💪`;
+    score += 10; streak++; updateScore();
+  } else if (sim > 0.45) {
+    fb.className = 'pron-box ok';
+    fb.textContent = `⭐⭐ Hyvä yritys! Oikea ääntäminen on: "${pronP.phonetic}" — kuuntele malli uudelleen ja yritä vielä! 😊`;
+    score += 5; streak++; updateScore();
   } else {
-    fb.textContent = `⭐ Harjoittele! Tämä fraasi äännetään näin: "${correct}" – kuuntele malli ja yritä sanoa ääneen! 🎯`;
+    fb.className = 'pron-box try';
+    fb.textContent = `⭐ Harjoittele! Tämä äännetään näin: "${pronP.phonetic}" — paina 🔊 uudelleen ja yritä sanoa se ääneen! 🎯`;
   }
-  fb.style.display = 'block';
 }
 
-function similarity(a, b) {
-  // Yksinkertainen: kuinka moni kirjain on sama suhteessa pituuteen
+function charSimilarity(a, b) {
   let matches = 0;
-  const aChars = a.replace(/\s/g,'').split('');
-  const bChars = b.replace(/[-\s]/g,'').split('');
-  aChars.forEach(c => { const i = bChars.indexOf(c); if (i !== -1) { matches++; bChars.splice(i,1); } });
-  return matches / Math.max(aChars.length, bChars.length);
+  const bc = b.split('');
+  a.split('').forEach(c => { const i = bc.indexOf(c); if (i !== -1) { matches++; bc.splice(i,1); } });
+  return matches / Math.max(a.length, b.length);
 }
 
 // =============================================
@@ -542,7 +671,7 @@ function similarity(a, b) {
 function speak(text) {
   speechSynthesis.cancel();
   const utt = new SpeechSynthesisUtterance(text);
-  utt.lang = 'en-US'; utt.rate = 0.82; utt.pitch = 1.05;
+  utt.lang = 'en-US'; utt.rate = 0.82; utt.pitch = 1.0;
   const voices = speechSynthesis.getVoices();
   const v = voices.find(v => v.lang === 'en-US') || voices.find(v => v.lang.startsWith('en'));
   if (v) utt.voice = v;

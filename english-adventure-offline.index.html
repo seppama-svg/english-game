@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="English Adventure">
+<title>English Adventure! 🌟</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&display=swap');
+
+  :root {
+    --sky: #6EC6F5;
+    --sun: #FFD93D;
+    --grass: #6BCB77;
+    --berry: #FF6B6B;
+    --dark: #2D3561;
+    --purple: #C77DFF;
+    --orange: #FF9F1C;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Baloo 2', cursive, sans-serif;
+    background: linear-gradient(180deg, var(--sky) 0%, #b8e4fc 40%, #d4f1c0 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .cloud { position: fixed; background: white; border-radius: 50px; opacity: 0.85; pointer-events: none; z-index: 0; }
+  .cloud::before, .cloud::after { content: ''; position: absolute; background: white; border-radius: 50%; }
+  .c1 { width: 120px; height: 45px; top: 8%; left: -140px; animation: drift 18s linear infinite; }
+  .c1::before { width: 60px; height: 60px; top: -30px; left: 15px; }
+  .c1::after  { width: 45px; height: 45px; top: -20px; left: 50px; }
+  .c2 { width: 90px;  height: 35px; top: 18%; left: -110px; animation: drift 25s linear infinite 8s; }
+  .c2::before { width: 45px; height: 45px; top: -22px; left: 10px; }
+  .c2::after  { width: 35px; height: 35px; top: -15px; left: 40px; }
+  .c3 { width: 150px; height: 55px; top: 4%;  left: -170px; animation: drift 22s linear infinite 14s; }
+  .c3::before { width: 70px; height: 70px; top: -35px; left: 20px; }
+  .c3::after  { width: 55px; height: 55px; top: -25px; left: 70px; }
+  @keyframes drift { from { transform: translateX(0); } to { transform: translateX(calc(100vw + 200px)); } }
+
+  .sun {
+    position: fixed; top: 20px; right: 30px; width: 70px; height: 70px;
+    background: var(--sun); border-radius: 50%; z-index: 0;
+    box-shadow: 0 0 0 12px rgba(255,217,61,0.25), 0 0 0 24px rgba(255,217,61,0.12);
+    animation: pulse-sun 3s ease-in-out infinite;
+  }
+  @keyframes pulse-sun {
+    0%,100% { box-shadow: 0 0 0 12px rgba(255,217,61,0.25), 0 0 0 24px rgba(255,217,61,0.12); }
+    50%      { box-shadow: 0 0 0 18px rgba(255,217,61,0.3),  0 0 0 36px rgba(255,217,61,0.1);  }
+  }
+
+  .container { position: relative; z-index: 1; max-width: 600px; margin: 0 auto; padding: 20px 16px 50px; }
+
+  .header { text-align: center; margin-bottom: 20px; animation: bounceIn 0.5s ease; }
+  .header h1 { font-size: 2.6rem; font-weight: 800; color: var(--dark); text-shadow: 3px 3px 0 rgba(255,255,255,0.6); }
+  .header p  { font-size: 1rem; color: #4a5568; font-weight: 600; margin-top: 4px; }
+
+  .score-bar { display: flex; justify-content: center; gap: 12px; margin-bottom: 18px; }
+  .badge {
+    background: white; border-radius: 40px; padding: 8px 18px;
+    font-size: 1rem; font-weight: 700; color: var(--dark);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 6px;
+  }
+
+  .card {
+    background: white; border-radius: 28px; padding: 26px 22px;
+    box-shadow: 0 8px 32px rgba(45,53,97,0.12); margin-bottom: 16px;
+    animation: slideUp 0.35s ease;
+  }
+  @keyframes slideUp   { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes bounceIn  { 0% { transform:scale(0.8); opacity:0; } 70% { transform:scale(1.05); } 100% { transform:scale(1); opacity:1; } }
+
+  .section-title { font-size: 1.2rem; font-weight: 800; color: var(--dark); margin-bottom: 14px; }
+
+  /* Mode grid */
+  .mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .mode-card {
+    background: white; border: 3px solid #e2e8f0; border-radius: 22px;
+    padding: 20px 12px; text-align: center; cursor: pointer; transition: all 0.2s;
+    font-family: inherit;
+  }
+  .mode-card:hover  { transform: translateY(-4px); box-shadow: 0 10px 28px rgba(0,0,0,0.1); }
+  .mode-card:active { transform: scale(0.97); }
+  .mode-card .icon  { font-size: 2.6rem; display: block; margin-bottom: 6px; }
+  .mode-card .title { font-size: 1.05rem; font-weight: 800; color: var(--dark); }
+  .mode-card .desc  { font-size: 0.82rem; color: #718096; font-weight: 600; margin-top: 3px; }
+  .mode-card.m1 { border-color: var(--sky);    } .mode-card.m1:hover { background:#ebf8ff; }
+  .mode-card.m2 { border-color: var(--orange);  } .mode-card.m2:hover { background:#fffbeb; }
+  .mode-card.m3 { border-color: var(--grass);   } .mode-card.m3:hover { background:#f0fff4; }
+  .mode-card.m4 { border-color: var(--berry);   } .mode-card.m4:hover { background:#fff5f5; }
+
+  /* Phrase cards (learn) */
+  .phrase-card {
+    background: linear-gradient(135deg,#667eea11,#764ba211);
+    border: 2px solid #e2e8f0; border-radius: 18px; padding: 16px;
+    margin-bottom: 10px; cursor: pointer; transition: all 0.18s;
+  }
+  .phrase-card:hover  { transform: translateX(5px); border-color: var(--purple); }
+  .phrase-card .en    { font-size: 1.2rem; font-weight: 800; color: var(--dark); }
+  .phrase-card .fi    { font-size: 0.95rem; color: #718096; font-weight: 600; margin-top: 2px; }
+  .phrase-card .ex    { font-size: 0.88rem; color: var(--purple); font-style: italic; margin-top: 6px; display: none; }
+  .phrase-card .tip   { font-size: 0.78rem; color: #a0aec0; margin-top: 3px; }
+  .phrase-card.open .ex { display: block; }
+  .phrase-card .speak-btn {
+    margin-top: 8px; background: var(--sky); border: none; border-radius: 10px;
+    padding: 6px 14px; font-family: inherit; font-size: 0.85rem; font-weight: 700;
+    color: white; cursor: pointer; display: none;
+  }
+  .phrase-card.open .speak-btn { display: inline-block; }
+
+  /* Quiz */
+  .phrase-display { text-align: center; padding: 10px 0 4px; }
+  .phrase-emoji   { font-size: 3.6rem; display: block; margin-bottom: 10px; animation: wiggle 2s ease-in-out infinite; }
+  @keyframes wiggle { 0%,100% { transform:rotate(-3deg); } 50% { transform:rotate(3deg); } }
+  .phrase-en      { font-size: 1.8rem; font-weight: 800; color: var(--dark); line-height: 1.2; }
+  .phrase-fi      { font-size: 1.05rem; color: #718096; font-weight: 600; margin-top: 4px; }
+  .ctx-label      { display:inline-block; background:var(--purple); color:white; border-radius:20px; padding:4px 14px; font-size:0.82rem; font-weight:700; margin-bottom:12px; }
+
+  .choices        { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
+  .choice-btn {
+    background: #f7f9fc; border: 3px solid #e2e8f0; border-radius: 16px;
+    padding: 13px 8px; font-family: inherit; font-size: 0.95rem; font-weight: 700;
+    color: var(--dark); cursor: pointer; transition: all 0.15s; text-align: center; line-height: 1.3;
+  }
+  .choice-btn:hover:not(:disabled) { background:var(--sky); border-color:var(--sky); transform:translateY(-2px); }
+  .choice-btn.correct { background:var(--grass); border-color:var(--grass); color:white; transform:scale(1.04); }
+  .choice-btn.wrong   { background:var(--berry);  border-color:var(--berry);  color:white; opacity:0.7; }
+  .choice-btn:disabled { cursor:default; }
+
+  .feedback {
+    text-align:center; padding:14px; border-radius:18px;
+    font-size:1.2rem; font-weight:800; margin-top:14px; display:none;
+  }
+  .feedback.correct { background:#f0fff4; color:#276749; display:block; animation:bounceIn 0.3s ease; }
+  .feedback.wrong   { background:#fff5f5; color:#c53030; display:block; animation:bounceIn 0.3s ease; }
+
+  .stars      { display:flex; justify-content:center; gap:6px; font-size:1.8rem; margin:8px 0; }
+  .star       { opacity:0.2; transition:all 0.3s; }
+  .star.earned { opacity:1; animation:starPop 0.4s ease; }
+  @keyframes starPop { 0%{transform:scale(0);} 70%{transform:scale(1.3);} 100%{transform:scale(1);} }
+
+  /* Buttons */
+  .btn {
+    display:block; width:100%; padding:15px; border:none; border-radius:18px;
+    font-family:inherit; font-size:1.1rem; font-weight:800; cursor:pointer;
+    transition:all 0.18s; margin-top:12px;
+  }
+  .btn:active { transform:scale(0.97); }
+  .btn-primary  { background:linear-gradient(135deg,var(--orange),#ff6b35); color:white; box-shadow:0 6px 20px rgba(255,159,28,0.35); }
+  .btn-sky      { background:linear-gradient(135deg,var(--sky),#4a9eca);    color:white; box-shadow:0 6px 20px rgba(110,198,245,0.35); }
+  .btn-red      { background:linear-gradient(135deg,var(--berry),#c0392b);  color:white; box-shadow:0 6px 20px rgba(255,107,107,0.35); }
+  .btn-gray     { background:#e2e8f0; color:#4a5568; }
+  .btn-row      { display:flex; gap:10px; margin-top:12px; }
+  .btn-row .btn { margin-top:0; flex:1; }
+
+  /* Fill input */
+  .fill-input {
+    width:100%; padding:14px 16px; border:3px solid #e2e8f0; border-radius:14px;
+    font-family:inherit; font-size:1.1rem; font-weight:700; color:var(--dark);
+    outline:none; margin-top:12px; transition:border-color 0.2s;
+  }
+  .fill-input:focus { border-color:var(--sky); }
+
+  /* Pronunciation */
+  .pron-box {
+    background:#f0fff4; border:2px solid var(--grass); border-radius:18px;
+    padding:16px; margin-top:14px; display:none;
+    font-size:0.95rem; font-weight:600; color:#276749; line-height:1.6;
+  }
+  .pron-box.warn { background:#fff8f0; border-color:var(--orange); color:#7b4a00; }
+
+  .hidden { display:none !important; }
+</style>
+</head>
+<body>
+
+<div class="cloud c1"></div>
+<div class="cloud c2"></div>
+<div class="cloud c3"></div>
+<div class="sun"></div>
+
+<div class="container">
+  <div class="header">
+    <h1>🌍 English Adventure!</h1>
+    <p>Opi englantia pelaamalla ✨</p>
+  </div>
+
+  <div class="score-bar">
+    <div class="badge">⭐ <span id="totalScore">0</span> pistettä</div>
+    <div class="badge">🔥 <span id="streak">0</span> putki</div>
+  </div>
+
+  <!-- HOME -->
+  <div id="homeScreen">
+    <div class="card">
+      <p class="section-title">🎮 Valitse tapa oppia</p>
+      <div class="mode-grid">
+        <div class="mode-card m1" onclick="startLearn()">
+          <span class="icon">📖</span>
+          <div class="title">Opettele</div>
+          <div class="desc">Fraasit + kuuntele</div>
+        </div>
+        <div class="mode-card m2" onclick="startQuiz()">
+          <span class="icon">🧩</span>
+          <div class="title">Tietovisa</div>
+          <div class="desc">Valitse oikea vastaus</div>
+        </div>
+        <div class="mode-card m3" onclick="startFill()">
+          <span class="icon">✏️</span>
+          <div class="title">Täytä aukko</div>
+          <div class="desc">Kirjoita puuttuva sana</div>
+        </div>
+        <div class="mode-card m4" onclick="startPron()">
+          <span class="icon">🎤</span>
+          <div class="title">Ääntäminen</div>
+          <div class="desc">Kuuntele ja harjoittele</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEARN -->
+  <div id="learnScreen" class="hidden">
+    <div class="card">
+      <p class="section-title">📖 Fraasit ja lauseet</p>
+      <div id="phraseList"></div>
+      <button class="btn btn-primary" onclick="showHome()">← Takaisin</button>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quizScreen" class="hidden">
+    <div class="card">
+      <div class="phrase-display">
+        <span class="phrase-emoji" id="qEmoji">🌟</span>
+        <div class="ctx-label" id="qCtx"></div>
+        <p class="phrase-fi" id="qFi"></p>
+        <p style="font-size:0.88rem;color:#a0aec0;font-weight:600;margin-top:4px">Mikä on englanninkielinen käännös?</p>
+      </div>
+      <div class="choices" id="qChoices"></div>
+      <div class="feedback" id="qFeedback"></div>
+      <div class="stars" id="qStars"><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span></div>
+      <button class="btn btn-primary hidden" id="qNext" onclick="loadQuiz()">Seuraava →</button>
+      <button class="btn btn-gray" onclick="showHome()" style="margin-top:8px">← Etusivu</button>
+    </div>
+  </div>
+
+  <!-- FILL -->
+  <div id="fillScreen" class="hidden">
+    <div class="card">
+      <div class="phrase-display">
+        <span class="phrase-emoji" id="fEmoji">✏️</span>
+        <div class="ctx-label" id="fCtx"></div>
+        <p class="phrase-en" id="fSentence" style="margin:14px 0 6px"></p>
+        <p class="phrase-fi" id="fHint"></p>
+      </div>
+      <input class="fill-input" id="fillAnswer" type="text" placeholder="Kirjoita puuttuva sana..."
+        onkeydown="if(event.key==='Enter')checkFill()">
+      <button class="btn btn-red" onclick="checkFill()" style="margin-top:10px">Tarkista ✓</button>
+      <div class="feedback" id="fFeedback"></div>
+      <button class="btn btn-primary hidden" id="fNext" onclick="loadFill()">Seuraava →</button>
+      <button class="btn btn-gray" onclick="showHome()" style="margin-top:8px">← Takaisin</button>
+    </div>
+  </div>
+
+  <!-- PRONUNCIATION -->
+  <div id="pronScreen" class="hidden">
+    <div class="card">
+      <div class="phrase-display">
+        <span class="phrase-emoji" id="pEmoji">🎤</span>
+        <div class="ctx-label" id="pCtx"></div>
+        <p class="phrase-en" id="pPhrase" style="margin:12px 0 4px;filter:blur(5px);transition:filter 0.4s"></p>
+        <p class="phrase-fi" id="pFi"></p>
+        <p style="font-size:0.82rem;color:#a0aec0;font-weight:600;margin-top:4px" id="pHint">🔊 Kuuntele ensin!</p>
+      </div>
+
+      <button class="btn btn-sky" id="pListenBtn" onclick="pronSpeak()">🔊 Kuuntele fraasi</button>
+
+      <div id="pTypeArea" style="display:none;margin-top:14px">
+        <p style="font-weight:700;color:var(--dark);font-size:0.9rem;margin-bottom:6px">
+          ✏️ Kirjoita miten kuulostaa suomalaisittain:<br>
+          <span style="color:#a0aec0;font-size:0.8rem">esim. "gud moo-ning"</span>
+        </p>
+        <input class="fill-input" id="pronAnswer" type="text" placeholder="Kirjoita tähän..."
+          onkeydown="if(event.key==='Enter')checkPron()">
+        <button class="btn btn-red" onclick="checkPron()" style="margin-top:10px">Tarkista 🎤</button>
+      </div>
+
+      <div class="pron-box" id="pFeedback"></div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="loadPron()">Seuraava →</button>
+        <button class="btn btn-gray"    onclick="showHome()">← Etusivu</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// =============================================
+// FRAASIT – lisää uusia tähän listaan!
+// =============================================
+const phrases = [
+  // Tervehtimiset
+  { en:"Good morning!",       fi:"Hyvää huomenta!",          emoji:"🌅", ctx:"Tervehtimiset",  example:"Good morning! How are you?",          phonetic:"gud moo-ning" },
+  { en:"Good afternoon!",     fi:"Hyvää iltapäivää!",        emoji:"☀️", ctx:"Tervehtimiset",  example:"Good afternoon, everyone!",           phonetic:"gud aaf-ter-nuun" },
+  { en:"Good night!",         fi:"Hyvää yötä!",              emoji:"🌙", ctx:"Tervehtimiset",  example:"Good night, sleep tight!",            phonetic:"gud nait" },
+  { en:"Hello!",              fi:"Hei!",                     emoji:"👋", ctx:"Tervehtimiset",  example:"Hello! Nice to see you!",             phonetic:"hel-loo" },
+  { en:"How are you?",        fi:"Miten voit?",              emoji:"😊", ctx:"Tervehtimiset",  example:"Hi! How are you today?",              phonetic:"hau aa juu" },
+  // Vastaaminen
+  { en:"I'm fine, thank you!",fi:"Olen hyvin, kiitos!",      emoji:"👍", ctx:"Vastaaminen",    example:"I'm fine, thank you! And you?",       phonetic:"aim fain, tänk juu" },
+  { en:"I'm happy!",          fi:"Olen iloinen!",            emoji:"😄", ctx:"Vastaaminen",    example:"I'm happy today!",                    phonetic:"aim häp-pi" },
+  // Esittäytyminen
+  { en:"What is your name?",  fi:"Mikä sinun nimesi on?",    emoji:"🏷️", ctx:"Esittäytyminen", example:"Hello! What is your name?",            phonetic:"wot is joor neim" },
+  { en:"My name is...",       fi:"Nimeni on...",             emoji:"😄", ctx:"Esittäytyminen", example:"My name is Matti.",                    phonetic:"mai neim is..." },
+  { en:"Nice to meet you!",   fi:"Hauska tavata!",           emoji:"🤝", ctx:"Esittäytyminen", example:"Nice to meet you, Anna!",              phonetic:"nais tu miit juu" },
+  // Kohteliaisuus
+  { en:"Please",              fi:"Ole hyvä / Kiitos",        emoji:"🙏", ctx:"Kohteliaisuus",  example:"Can I have water, please?",           phonetic:"pliis" },
+  { en:"Thank you!",          fi:"Kiitos!",                  emoji:"💖", ctx:"Kohteliaisuus",  example:"Thank you very much!",                phonetic:"tänk juu" },
+  { en:"You're welcome!",     fi:"Ole hyvä!",                emoji:"😊", ctx:"Kohteliaisuus",  example:"Thank you! — You're welcome!",        phonetic:"joor wel-kam" },
+  { en:"I'm sorry",           fi:"Olen pahoillani",          emoji:"😔", ctx:"Kohteliaisuus",  example:"I'm sorry, I made a mistake.",        phonetic:"aim sor-ri" },
+  { en:"Excuse me",           fi:"Anteeksi",                 emoji:"🙋", ctx:"Kohteliaisuus",  example:"Excuse me, where is the toilet?",     phonetic:"eks-kjuus mi" },
+  // Apua
+  { en:"I don't understand",  fi:"En ymmärrä",               emoji:"🤔", ctx:"Apua",           example:"I don't understand. Can you help me?",phonetic:"ai doont an-der-ständ" },
+  { en:"Can you help me?",    fi:"Voitko auttaa minua?",     emoji:"🆘", ctx:"Apua",           example:"Can you help me find my bag?",        phonetic:"kän juu help mi" },
+  // Tunteet
+  { en:"I like...",           fi:"Pidän...",                 emoji:"❤️", ctx:"Tunteet",        example:"I like pizza and ice cream!",         phonetic:"ai laik..." },
+  { en:"I don't like...",     fi:"En pidä...",               emoji:"😕", ctx:"Tunteet",        example:"I don't like spiders.",               phonetic:"ai doont laik..." },
+  // Toiminta
+  { en:"Let's go!",           fi:"Mennään!",                 emoji:"🏃", ctx:"Toiminta",       example:"Let's go to the park!",               phonetic:"lets goo" },
+  { en:"Wait a moment",       fi:"Odota hetki",              emoji:"⏳", ctx:"Toiminta",       example:"Wait a moment, I'm coming!",          phonetic:"weit a moo-ment" },
+  { en:"See you later!",      fi:"Nähdään myöhemmin!",       emoji:"👋", ctx:"Hyvästely",      example:"See you later, alligator!",           phonetic:"sii juu lei-ter" },
+];
+
+// =============================================
+// TILA
+// =============================================
+let score = 0, streak = 0;
+let quizQ = null, fillQ = null, pronP = null;
+
+// =============================================
+// NAVIGOINTI
+// =============================================
+function showHome() {
+  ['learnScreen','quizScreen','fillScreen','pronScreen'].forEach(id =>
+    document.getElementById(id).classList.add('hidden'));
+  document.getElementById('homeScreen').classList.remove('hidden');
+}
+function showScreen(id) {
+  document.getElementById('homeScreen').classList.add('hidden');
+  ['learnScreen','quizScreen','fillScreen','pronScreen'].forEach(s =>
+    document.getElementById(s).classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+}
+
+// =============================================
+// OPETTELE
+// =============================================
+function startLearn() {
+  showScreen('learnScreen');
+  const list = document.getElementById('phraseList');
+  list.innerHTML = phrases.map((p, i) => `
+    <div class="phrase-card" id="pc${i}" onclick="toggleCard(${i})">
+      <div class="en">${p.emoji} ${p.en}</div>
+      <div class="fi">${p.fi}</div>
+      <div class="ex">📝 ${p.example}</div>
+      <div class="ex" style="color:#FF9F1C">🗣 Ääntäminen: <strong>${p.phonetic}</strong></div>
+      <button class="speak-btn" onclick="event.stopPropagation();speak('${p.en.replace(/'/g,"\\'")}')">🔊 Kuuntele</button>
+      <div class="tip">👆 Napauta</div>
+    </div>
+  `).join('');
+}
+function toggleCard(i) {
+  document.getElementById('pc'+i).classList.toggle('open');
+}
+
+// =============================================
+// TIETOVISA
+// =============================================
+function startQuiz() { showScreen('quizScreen'); loadQuiz(); }
+
+function loadQuiz() {
+  document.getElementById('qFeedback').style.display = 'none';
+  document.getElementById('qNext').classList.add('hidden');
+  document.querySelectorAll('#qStars .star').forEach(s => s.classList.remove('earned'));
+
+  const idx = Math.floor(Math.random() * phrases.length);
+  const correct = phrases[idx];
+  const wrongs = phrases.filter((_,i) => i !== idx).sort(() => Math.random()-0.5).slice(0,3);
+  const opts = [correct, ...wrongs].sort(() => Math.random()-0.5);
+  quizQ = { correct, opts };
+
+  document.getElementById('qEmoji').textContent = correct.emoji;
+  document.getElementById('qCtx').textContent = correct.ctx;
+  document.getElementById('qFi').textContent = correct.fi;
+
+  document.getElementById('qChoices').innerHTML = opts.map((o,i) =>
+    `<button class="choice-btn" id="opt${i}" onclick="selectQuiz(${i})">${o.en}</button>`
+  ).join('');
+}
+
+function selectQuiz(i) {
+  const { correct, opts } = quizQ;
+  const isOk = opts[i].en === correct.en;
+  document.querySelectorAll('.choice-btn').forEach(b => b.disabled = true);
+  opts.forEach((o,j) => {
+    if (o.en === correct.en) document.getElementById('opt'+j).classList.add('correct');
+    else if (j === i)        document.getElementById('opt'+j).classList.add('wrong');
+  });
+  const fb = document.getElementById('qFeedback');
+  const stars = document.querySelectorAll('#qStars .star');
+  if (isOk) {
+    score += 10; streak++;
+    fb.className = 'feedback correct';
+    fb.textContent = streak >= 3 ? `🔥 ${streak} putkessa! +10 pistettä` : '✅ Oikein! +10 pistettä';
+    stars.forEach((s,j) => setTimeout(() => s.classList.add('earned'), j*180));
+    speak(correct.en);
+  } else {
+    streak = 0;
+    fb.className = 'feedback wrong';
+    fb.textContent = `❌ Oikea vastaus: "${correct.en}" 🗣 ${correct.phonetic}`;
+    stars[0].classList.add('earned');
+  }
+  updateScore();
+  document.getElementById('qNext').classList.remove('hidden');
+}
+
+// =============================================
+// TÄYTÄ AUKKO
+// =============================================
+function startFill() { showScreen('fillScreen'); loadFill(); }
+
+function loadFill() {
+  document.getElementById('fFeedback').style.display = 'none';
+  document.getElementById('fNext').classList.add('hidden');
+  document.getElementById('fillAnswer').value = '';
+  document.getElementById('fillAnswer').disabled = false;
+
+  const p = phrases[Math.floor(Math.random() * phrases.length)];
+  // Valitse satunnainen sana poistettavaksi (ei ensimmäinen jos lyhyt)
+  const words = p.en.replace(/[!?.]/g,'').split(' ');
+  const wi = words.length > 1 ? 1 + Math.floor(Math.random() * (words.length-1)) : 0;
+  const missing = words[wi].toLowerCase();
+  const sentence = p.en.replace(words[wi], '___');
+
+  fillQ = { sentence, missing, hint: p.fi, emoji: p.emoji, ctx: p.ctx };
+
+  document.getElementById('fEmoji').textContent = p.emoji;
+  document.getElementById('fCtx').textContent = p.ctx;
+  document.getElementById('fSentence').textContent = sentence;
+  document.getElementById('fHint').textContent = '🇫🇮 ' + p.fi;
+  setTimeout(() => document.getElementById('fillAnswer').focus(), 100);
+}
+
+function checkFill() {
+  const ans = document.getElementById('fillAnswer').value.toLowerCase().trim().replace(/[!?.]/g,'');
+  const correct = fillQ.missing.replace(/[!?.]/g,'');
+  const fb = document.getElementById('fFeedback');
+  if (ans === correct) {
+    score += 15; streak++;
+    fb.className = 'feedback correct';
+    fb.textContent = `✅ Oikein! "${correct}" – hienoa! +15 pistettä 🎉`;
+  } else {
+    streak = 0;
+    fb.className = 'feedback wrong';
+    fb.textContent = `❌ Oikea sana: "${correct}"`;
+  }
+  updateScore();
+  document.getElementById('fillAnswer').disabled = true;
+  document.getElementById('fNext').classList.remove('hidden');
+}
+
+// =============================================
+// ÄÄNTÄMINEN
+// =============================================
+function startPron() { showScreen('pronScreen'); loadPron(); }
+
+function loadPron() {
+  const p = phrases[Math.floor(Math.random() * phrases.length)];
+  pronP = p;
+  document.getElementById('pEmoji').textContent = p.emoji;
+  document.getElementById('pCtx').textContent = p.ctx;
+  document.getElementById('pPhrase').textContent = p.en;
+  document.getElementById('pPhrase').style.filter = 'blur(5px)';
+  document.getElementById('pFi').textContent = p.fi;
+  document.getElementById('pHint').style.display = 'block';
+  document.getElementById('pTypeArea').style.display = 'none';
+  document.getElementById('pFeedback').style.display = 'none';
+  document.getElementById('pronAnswer').value = '';
+  document.getElementById('pListenBtn').textContent = '🔊 Kuuntele fraasi';
+}
+
+function pronSpeak() {
+  speak(pronP.en);
+  document.getElementById('pListenBtn').textContent = '🔊 Kuuntele uudelleen';
+  document.getElementById('pPhrase').style.filter = 'none';
+  document.getElementById('pHint').style.display = 'none';
+  document.getElementById('pTypeArea').style.display = 'block';
+  setTimeout(() => document.getElementById('pronAnswer').focus(), 200);
+}
+
+function checkPron() {
+  const attempt = document.getElementById('pronAnswer').value.trim();
+  if (!attempt) return;
+  const fb = document.getElementById('pFeedback');
+  const correct = pronP.phonetic;
+
+  // Yksinkertainen vertailu: lasketaan yhteiset kirjaimet
+  const score_pct = similarity(attempt.toLowerCase(), correct.toLowerCase());
+
+  fb.className = 'pron-box';
+  if (score_pct > 0.7) {
+    fb.textContent = `⭐⭐⭐ Loistavaa! Oikea ääntäminen on "${correct}" – sinä osuit lähelle! Harjoittele lisää niin tulee yhä paremmin! 💪`;
+    score += 10; streak++;
+    updateScore();
+  } else if (score_pct > 0.4) {
+    fb.textContent = `⭐⭐ Hyvä yritys! Oikea ääntäminen on: "${correct}" – kuuntele uudelleen ja yritä vielä! 😊`;
+    score += 5; streak++;
+    updateScore();
+  } else {
+    fb.textContent = `⭐ Harjoittele! Tämä fraasi äännetään näin: "${correct}" – kuuntele malli ja yritä sanoa ääneen! 🎯`;
+  }
+  fb.style.display = 'block';
+}
+
+function similarity(a, b) {
+  // Yksinkertainen: kuinka moni kirjain on sama suhteessa pituuteen
+  let matches = 0;
+  const aChars = a.replace(/\s/g,'').split('');
+  const bChars = b.replace(/[-\s]/g,'').split('');
+  aChars.forEach(c => { const i = bChars.indexOf(c); if (i !== -1) { matches++; bChars.splice(i,1); } });
+  return matches / Math.max(aChars.length, bChars.length);
+}
+
+// =============================================
+// PUHESYNTEESI
+// =============================================
+function speak(text) {
+  speechSynthesis.cancel();
+  const utt = new SpeechSynthesisUtterance(text);
+  utt.lang = 'en-US'; utt.rate = 0.82; utt.pitch = 1.05;
+  const voices = speechSynthesis.getVoices();
+  const v = voices.find(v => v.lang === 'en-US') || voices.find(v => v.lang.startsWith('en'));
+  if (v) utt.voice = v;
+  speechSynthesis.speak(utt);
+}
+speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
+
+// =============================================
+// PISTEET
+// =============================================
+function updateScore() {
+  document.getElementById('totalScore').textContent = score;
+  document.getElementById('streak').textContent = streak;
+}
+</script>
+</body>
+</html>
